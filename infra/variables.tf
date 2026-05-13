@@ -27,3 +27,10 @@ variable "tags" {
     ManagedBy   = "terraform"
   }
 }
+
+
+variable "cloudfront_distribution_id" {
+  description = "CloudFront distribution ID for the resume site (used by CI/CD to invalidate cache)"
+  type        = string
+  default     = ""
+}

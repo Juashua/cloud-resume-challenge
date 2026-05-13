@@ -25,9 +25,8 @@ output "dynamodb_table_name" {
   value       = aws_dynamodb_table.visitor_count.name
 }
 
-
 output "api_gateway_invoke_url" {
-  description = "API Gateway invoke URL for the visitor counter - use this in frontend/script.js"
+  description = "API Gateway invoke URL for the visitor counter - paste this into frontend/script.js"
   value       = "${aws_apigatewayv2_stage.visitor_counter.invoke_url}/count"
 }
 
@@ -37,6 +36,6 @@ output "lambda_function_name" {
 }
 
 output "lambda_iam_role_arn" {
-  description = "ARN of the Lambda execution IAM role"
+  description = "ARN of the least-privilege Lambda execution IAM role"
   value       = aws_iam_role.lambda_exec.arn
 }

@@ -111,3 +111,107 @@ resource "aws_dynamodb_table" "visitor_count" {
 
   tags = var.tags
 }
+
+
+# ----- IAM Role for Lambda -----
+resource "aws_iam_role" "lambda_exec" {
+  name = "visitor-counter-lambda-role"
+  tags = var.tags
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "lambda.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+# Basic Lambda execution permissions (CloudWatch Logs)
+resource "aws_iam_role_policy_attachment" "lambda_basic" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# Least-privilege inline policy: only UpdateItem on the VisitorCount table
+resource "aws_iam_role_policy" "lambda_dynamodb" {
+  name = "visitor-counter-dynamodb-policy"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = "dynamodb:UpdateItem"
+      Resource = aws_dynamodb_table.visitor_count.arn
+    }]
+  })
+}
+
+# ----- Lambda Function (Visitor Counter) -----
+data "archive_file" "visitor_counter_zip" {
+  type        = "zip"
+  source_file = "${path.module}/lambda/visitor_counter.py"
+  output_path = "${path.module}/lambda/visitor_counter.zip"
+}
+
+resource "aws_lambda_function" "visitor_counter" {
+  function_name    = "visitor-counter"
+  runtime          = "python3.12"
+  handler          = "visitor_counter.lambda_handler"
+  role             = aws_iam_role.lambda_exec.arn
+  filename         = data.archive_file.visitor_counter_zip.output_path
+  source_code_hash = data.archive_file.visitor_counter_zip.output_base64sha256
+  timeout          = 10
+  tags             = var.tags
+
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.visitor_count.name
+    }
+  }
+}
+
+# ----- API Gateway (HTTP API) -----
+resource "aws_apigatewayv2_api" "visitor_counter" {
+  name          = "visitor-counter-api"
+  protocol_type = "HTTP"
+  tags          = var.tags
+
+  cors_configuration {
+    allow_origins = ["https://juashua.com"]
+    allow_methods = ["POST", "OPTIONS"]
+    allow_headers = ["Content-Type"]
+    max_age       = 300
+  }
+}
+
+resource "aws_apigatewayv2_integration" "visitor_counter" {
+  api_id                 = aws_apigatewayv2_api.visitor_counter.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.visitor_counter.invoke_arn
+  payload_format_version = "2.0"
+}
+
+resource "aws_apigatewayv2_route" "visitor_counter" {
+  api_id    = aws_apigatewayv2_api.visitor_counter.id
+  route_key = "POST /count"
+  target    = "integrations/${aws_apigatewayv2_integration.visitor_counter.id}"
+}
+
+resource "aws_apigatewayv2_stage" "visitor_counter" {
+  api_id      = aws_apigatewayv2_api.visitor_counter.id
+  name        = "prod"
+  auto_deploy = true
+  tags        = var.tags
+}
+
+# Allow API Gateway to invoke the Lambda function
+resource "aws_lambda_permission" "api_gateway" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.visitor_counter.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.visitor_counter.execution_arn}/*/*"
+}

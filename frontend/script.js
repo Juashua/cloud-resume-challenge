@@ -4,7 +4,7 @@
  * Replace API_ENDPOINT with your deployed API Gateway URL.
  */
 
-const API_ENDPOINT = 'https://wp05dksre9.execute-api.us-east-1.amazonaws.com/prod';
+const API_ENDPOINT = 'https://wp05dksre9.execute-api.us-east-1.amazonaws.com/prod/count';
 
 async function updateVisitorCount() {
   const countEl = document.getElementById('visitor-count');

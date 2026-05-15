@@ -25,13 +25,25 @@ body {
   margin: 0;
   font-family: 'Inter', Arial, sans-serif;
   color: var(--text);
+  /* This purple background will show through between characters */
   background:
     radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.18), transparent 20%),
     radial-gradient(circle at 85% 15%, rgba(226, 199, 107, 0.20), transparent 18%),
     radial-gradient(circle at 80% 80%, rgba(179, 154, 76, 0.20), transparent 16%),
     var(--bg);
+  position: relative;
+  overflow-x: hidden;
 }
 
+/* MATRIX CANVAS - full-screen background */
+#matrix-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+/* PAGE CONTENT - ABOVE MATRIX */
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
@@ -39,6 +51,8 @@ img { max-width: 100%; display: block; }
   max-width: var(--max);
   margin: 0 auto;
   padding: 24px;
+  position: relative;
+  z-index: 1; /* sit above canvas */
 }
 
 .nav {
@@ -92,7 +106,11 @@ img { max-width: 100%; display: block; }
   margin-bottom: 24px;
 }
 
-.hero-panel, .card, .timeline-item, .stack-card, .education-card {
+.hero-panel,
+.card,
+.timeline-item,
+.stack-card,
+.education-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -107,7 +125,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero-panel::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: auto -40px -40px auto;
   width: 180px;
@@ -182,11 +200,15 @@ img { max-width: 100%; display: block; }
   background: rgba(70, 29, 124, 0.6);
 }
 
-.hero-side { display: grid; gap: 24px; }
+.hero-side {
+  display: grid;
+  gap: 24px;
+}
 
 .card { padding: 24px; }
 
-.card h2, .section-title {
+.card h2,
+.section-title {
   margin: 0 0 16px;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.05rem;
@@ -194,9 +216,16 @@ img { max-width: 100%; display: block; }
   color: var(--accent);
 }
 
-.contact-list, .mini-list, .cert-list, .award-list { display: grid; gap: 14px; }
+.contact-list,
+.mini-list,
+.cert-list,
+.award-list {
+  display: grid;
+  gap: 14px;
+}
 
-.contact-item span, .mini-label {
+.contact-item span,
+.mini-label {
   display: block;
   color: var(--soft);
   font-size: 12px;
@@ -205,7 +234,8 @@ img { max-width: 100%; display: block; }
   margin-bottom: 4px;
 }
 
-.contact-item strong, .mini-value {
+.contact-item strong,
+.mini-value {
   color: var(--text);
   font-size: 0.98rem;
   font-weight: 600;
@@ -228,7 +258,7 @@ img { max-width: 100%; display: block; }
 }
 
 .timeline-item::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 24px;
@@ -253,7 +283,11 @@ img { max-width: 100%; display: block; }
   color: var(--text);
 }
 
-.job-meta { color: var(--muted); font-size: 0.98rem; margin-top: 4px; }
+.job-meta {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin-top: 4px;
+}
 
 .job-date {
   white-space: nowrap;
@@ -266,14 +300,24 @@ img { max-width: 100%; display: block; }
 }
 
 .subsection { margin-top: 18px; }
-.subsection h4 { margin: 0 0 10px; color: var(--accent); font-size: 0.98rem; }
+
+.subsection h4 {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.98rem;
+}
+
 ul { margin: 0; padding-left: 18px; color: var(--muted); }
 li + li { margin-top: 8px; }
 
 .stack-grid { display: grid; gap: 16px; }
 .stack-card { padding: 20px; }
 
-.chip-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
 .chip {
   padding: 9px 12px;
@@ -284,23 +328,89 @@ li + li { margin-top: 8px; }
   font-size: 0.92rem;
 }
 
-.award-item, .cert-item {
+/* Projects section sidebar */
+.section-shell#projects { margin-bottom: 24px; }
+
+.project-list { display: grid; gap: 12px; }
+
+.project-item {
   padding: 14px;
   border-radius: var(--radius-sm);
-  background: rgba(33, 8, 70, 0.8);
+  background: var(--card);
   border: 1px solid var(--border);
   color: var(--muted);
 }
 
-.award-item strong, .cert-item strong {
+.project-item h3 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.project-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.project-item.compact {
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.project-item.compact h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.project-item.compact p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 0.86rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* AWARDS & CERTS */
+.award-item,
+.cert-item {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.award-item strong,
+.cert-item strong {
   color: var(--text);
   display: block;
   margin-bottom: 4px;
 }
 
-.education-card { padding: 22px; margin-top: 16px; }
+/* EDUCATION */
+.education-card {
+  padding: 22px;
+  margin-top: 16px;
+}
+
 .education-card + .education-card { margin-top: 14px; }
-.education-card strong { display: block; font-size: 1rem; margin-bottom: 4px; color: var(--text); }
+
+.education-card strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
 .education-card span { color: var(--muted); }
 
 footer {
@@ -315,16 +425,34 @@ footer {
   font-weight: bold;
 }
 
+/* RESPONSIVE */
 @media (max-width: 980px) {
-  .hero, .grid { grid-template-columns: 1fr; }
+  .hero,
+  .grid { grid-template-columns: 1fr; }
   .nav { border-radius: 22px; }
+  .project-item,
+  .project-item.compact { padding: 18px; }
+  .project-item.compact p {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
 }
 
 @media (max-width: 720px) {
   .page { padding: 16px; }
-  .nav { position: static; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .nav {
+    position: static;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
   .nav-links { flex-wrap: wrap; gap: 12px; }
-  .hero-panel, .card, .timeline-item, .stack-card, .education-card { padding: 20px; }
+  .hero-panel,
+  .card,
+  .timeline-item,
+  .stack-card,
+  .education-card { padding: 20px; }
   .job-top { flex-direction: column; }
   .job-date { white-space: normal; }
 }

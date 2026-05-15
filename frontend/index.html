@@ -1,247 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Juashua Villarejos Portfolio Resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div class="page">
+  <!-- Matrix canvas background -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
 
-  <!-- Nav -->
-  <nav class="nav">
-    <div class="logo">
-      <div class="logo-mark">JV</div>
-      <span>Juashua Villarejos</span>
-    </div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="#education">Education</a>
-    </div>
-  </nav>
+  <div class="page">
+    <header class="nav">
+      <div class="logo">
+        <div class="logo-mark">JV</div>
+        <div>Juashua Villarejos</div>
+      </div>
+      <nav class="nav-links" aria-label="Section navigation">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+      </nav>
+    </header>
 
-  <!-- Hero / About -->
-  <section id="about">
-    <div class="hero">
+    <section class="hero" id="about">
       <div class="hero-panel">
-        <h1>Juashua Villarejos &middot; Cybersecurity Engineer &middot; DHS / USCIS SOC</h1>
-        <div class="title">Defending enterprise environments with SOC, IR, and vulnerability management expertise.</div>
-        <p class="summary">Cybersecurity engineer with hands on experience in SOC operations, incident response, identity access management, and vulnerability management supporting a large federal enterprise environment. Proven track record in triaging complex security events, managing KEVs and ISVMs, and managing user accounts and access requests in accordance with least privilege standards to reduce organizational risk. Passionate about protecting privacy and mission critical assets while continuously improving processes, documentation, and team readiness.</p>
+        <h1>Juashua Villarejos &middot; Cybersecurity Engineer &middot; DHS USCIS SOC</h1>
+        <p class="title">Defending enterprise environments with SOC, IR, and vulnerability management expertise.</p>
+        <p class="summary">
+          Cybersecurity engineer with hands-on experience in SOC operations, incident response, identity access management,
+          and vulnerability management supporting a large federal enterprise environment. Proven track record in triaging
+          complex security events, managing KEVs and ISVMs, and managing user accounts and access requests in accordance
+          with least privilege standards to reduce organizational risk. Passionate about protecting privacy and
+          mission-critical assets while continuously improving processes, documentation, and team readiness.
+        </p>
         <div class="hero-actions">
-          <a href="mailto:juashua@proton.me" class="btn btn-primary">Contact</a>
-          <a href="/Juashua_Villarejos_Resume.pdf" class="btn btn-secondary">Download Resume</a>
+          <a class="btn btn-primary" href="mailto:juashua@proton.me">Contact</a>
+          <a class="btn btn-secondary" href="JuashuaVillarejosResume.pdf" download="JuashuaVillarejosResume.pdf">Download Resume</a>
         </div>
       </div>
 
       <div class="hero-side">
-        <div class="card">
+        <section class="card">
           <h2>Contact</h2>
           <div class="contact-list">
-            <div class="contact-item">
-              <span>Location</span>
-              <strong>Greater New Orleans Region</strong>
-            </div>
-            <div class="contact-item">
-              <span>Clearance</span>
-              <strong>Active Top Secret Clearance</strong>
-            </div>
-            <div class="contact-item">
-              <span>Phone</span>
-              <strong>(504) 214-5890</strong>
-            </div>
-            <div class="contact-item">
-              <span>Email</span>
-              <strong>juashua@proton.me</strong>
-            </div>
+            <div class="contact-item"><span>Location</span><strong>Greater New Orleans Region</strong></div>
+            <div class="contact-item"><span>Clearance</span><strong>Active Top Secret Clearance</strong></div>
+            <div class="contact-item"><span>Phone</span><strong>504-214-5890</strong></div>
+            <div class="contact-item"><span>Email</span><strong>juashua@proton.me</strong></div>
             <div class="contact-item">
               <span>Profiles</span>
               <strong>
-                <a href="https://www.linkedin.com/in/juashuavillarejos/">LinkedIn</a> &middot;
-                <a href="https://zer0rigin.medium.com/">Blog</a> &middot;
-                <a href="https://github.com/Juashua">GitHub</a>
+                <a href="https://www.linkedin.com/in/juashuavillarejos" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                &nbsp;
+                <a href="https://zer0rigin.medium.com" target="_blank" rel="noopener noreferrer">Blog</a>
+                &nbsp;
+                <a href="https://github.com/Juashua" target="_blank" rel="noopener noreferrer">GitHub</a>
               </strong>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="card">
+        <section class="card">
           <h2>Highlights</h2>
           <div class="mini-list">
-            <div>
-              <span class="mini-label">Core Focus</span>
-              <span class="mini-value">SOC Operations, Incident Response, Vulnerability Management, Identity &amp; Access Management</span>
+            <div><span class="mini-label">Core Focus</span><div class="mini-value">SOC Operations, Incident Response, Vulnerability Management, Identity &amp; Access Management</div></div>
+            <div><span class="mini-label">Environment</span><div class="mini-value">Large federal enterprise support</div></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div>
+        <section class="section-shell" id="experience">
+          <h2 class="section-title">Experience</h2>
+          <div class="timeline">
+            <article class="timeline-item">
+              <div class="job-top">
+                <div>
+                  <h3>Cybersecurity Engineer SOC &ndash; SADOM</h3>
+                  <div class="job-meta">USCIS SOC &middot; Aretec &middot; Stennis Space Center, MS</div>
+                </div>
+                <div class="job-date">March 2025 &ndash; Current</div>
+              </div>
+              <div class="subsection">
+                <h4>Information Security Vulnerability Management</h4>
+                <ul>
+                  <li>Review and process Known Exploitable Vulnerabilities (KEVs) to strengthen the agency&rsquo;s security posture and prioritize remediation.</li>
+                  <li>Analyze DHS and USCIS bulletins and technical advisories, translating them into actionable remediation tasks for stakeholders.</li>
+                  <li>Manage change records supporting vulnerability remediation while maintaining policy compliance and operational stability.</li>
+                  <li>Build and maintain Splunk searches to track ISVM status and remediation, improving visibility and reporting accuracy for leadership.</li>
+                  <li>Own the Cisco data call report with weekly updates on vulnerability status and trends for DHS stakeholders.</li>
+                  <li>Participate in weekly coordination meetings to improve open vulnerability awareness and response alignment.</li>
+                </ul>
+              </div>
+              <div class="subsection">
+                <h4>Accounts and Access Management</h4>
+                <ul>
+                  <li>Complete onboarding, offboarding, and team change requests, ensuring secure and timely account transitions.</li>
+                  <li>Process and validate access requests while enforcing least privilege and approval workflows.</li>
+                  <li>Resolve ServiceNow tickets related to account provisioning and removal, reducing backlog and misprovisioned access.</li>
+                  <li>Update GitHub documentation and runbooks, improving accuracy and ramp-up time for new team members.</li>
+                  <li>Develop SOPs for core workflows to preserve continuity during absences and role transitions.</li>
+                  <li>Troubleshoot access and account issues for end users, improving first contact resolution.</li>
+                </ul>
+              </div>
+              <div class="subsection">
+                <h4>Additional Contributions</h4>
+                <ul>
+                  <li>Support operational response tasks including IP and domain blocks, malicious email trace and purge actions, and USB exception requests.</li>
+                  <li>Process quarterly phishing exercise results in Splunk and maintain dashboards used for awareness and training.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="job-top">
+                <div>
+                  <h3>SOC CSIRT Analyst</h3>
+                  <div class="job-meta">USCIS SOC &middot; CSS Evolver Federal &middot; Stennis Space Center, MS</div>
+                </div>
+                <div class="job-date">June 2022 &ndash; March 2025</div>
+              </div>
+              <ul>
+                <li>Monitor network activity, evaluate and escalate security alerts, and coordinate response, containment, eradication, and recovery.</li>
+                <li>Perform network and host-based analysis using SIEM tools.</li>
+                <li>Review and triage DLP alerts while coordinating user training to prevent repeat incidents.</li>
+                <li>Analyze malware and suspicious files using EDR tools and Out-of-Band devices.</li>
+                <li>Handle spam and phishing reports and raise enterprise-wide awareness.</li>
+                <li>Consume and act upon daily Cyber Threat Intelligence reports.</li>
+                <li>Conduct incident response based on standard operating procedures.</li>
+                <li>Investigate network violations and coordinate remediation and training.</li>
+                <li>Lead log analysis for host and network systems.</li>
+                <li>Train new team members on tool usage and incident response procedures.</li>
+                <li>Collaborate across teams to process and remediate classified spills.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="section-shell" id="skills">
+          <h2 class="section-title">Tools &amp; Platforms</h2>
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="chip-wrap">
+                <span class="chip">FireEye</span>
+                <span class="chip">CrowdStrike</span>
+                <span class="chip">Splunk</span>
+                <span class="chip">Swimlane</span>
+                <span class="chip">Turbine</span>
+                <span class="chip">Tines</span>
+                <span class="chip">FlareVM Suite</span>
+                <span class="chip">Azure</span>
+                <span class="chip">O365</span>
+                <span class="chip">AWS</span>
+                <span class="chip">Gurucul</span>
+                <span class="chip">Exabeam</span>
+                <span class="chip">Active Directory</span>
+                <span class="chip">VMRay</span>
+                <span class="chip">Tenable</span>
+              </div>
             </div>
-            <div>
-              <span class="mini-label">Environment</span>
-              <span class="mini-value">Large federal enterprise support</span>
+          </div>
+        </section>
+
+        <section class="section-shell" id="projects">
+          <h2 class="section-title">Projects</h2>
+          <div class="project-list">
+            <div class="card project-item">
+              <h3>Resume Website built on AWS</h3>
+              <p>Static website hosted on Amazon S3 with CloudFront CDN, configured Route 53 DNS and AWS Certificate Manager for HTTPS. Hardened S3 access using bucket policies and origin access control, enforcing least privilege IAM. Enabled logging for visibility into access patterns.</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        </section>
 
-  <!-- Experience -->
-  <section id="experience" class="section-shell">
-    <h2 class="section-title">Experience</h2>
-    <div class="timeline">
-
-      <div class="timeline-item">
-        <div class="job-top">
-          <div>
-            <h3>Cybersecurity Engineer (SOC SADOM)</h3>
-            <div class="job-meta">USCIS SOC / Aretec &middot; Stennis Space Center, MS</div>
+        <section class="section-shell">
+          <h2 class="section-title">Certifications</h2>
+          <div class="cert-list">
+            <div class="cert-item"><strong><a href="https://www.credly.com/badges/cf1fad3f-a5d8-4d5a-8770-f22f3a2b2755" target="_blank" rel="noopener noreferrer">GRTP</a></strong> GIAC Red Team Professional</div>
+            <div class="cert-item"><strong><a href="https://www.credly.com/badges/ff464be9-19f8-4807-a2e1-f258eb1dd854" target="_blank" rel="noopener noreferrer">GCIH</a></strong> GIAC Certified Incident Handler</div>
+            <div class="cert-item"><strong><a href="https://certs.ine.com/0c230a46-fc52-452c-a5bc-db21c6a7a774#acc.pszyBMAJ" target="_blank" rel="noopener noreferrer">eCTHPv2</a></strong> Certified Threat Hunting Professional</div>
+            <div class="cert-item"><strong><a href="https://www.credly.com/badges/6c74af00-0b6c-476a-a273-c8b6b3205543" target="_blank" rel="noopener noreferrer">CompTIA CySA+</a></strong> Cybersecurity Analyst</div>
+            <div class="cert-item"><strong><a href="https://www.credly.com/badges/dcdb0f31-9f88-4d67-bf1c-418690fa8f45" target="_blank" rel="noopener noreferrer">CompTIA PenTest+</a></strong> Penetration Testing</div>
           </div>
-          <span class="job-date">March 2025 &ndash; Current</span>
-        </div>
+        </section>
 
-        <div class="subsection">
-          <h4>Information Security Vulnerability Management</h4>
-          <ul>
-            <li>Review and process Known Exploitable Vulnerabilities (KEVs) to strengthen the agency's security posture and prioritize remediation.</li>
-            <li>Analyze DHS and USCIS bulletins and technical advisories, translating them into actionable remediation tasks for stakeholders.</li>
-            <li>Manage change records supporting vulnerability remediation while maintaining policy compliance and operational stability.</li>
-            <li>Build and maintain Splunk searches to track ISVM status and remediation, improving visibility and reporting accuracy for leadership.</li>
-            <li>Own the Cisco data call report with weekly updates on vulnerability status and trends for DHS stakeholders.</li>
-            <li>Participate in weekly coordination meetings to improve open vulnerability awareness and response alignment.</li>
-          </ul>
-        </div>
-
-        <div class="subsection">
-          <h4>Accounts and Access Management</h4>
-          <ul>
-            <li>Complete onboarding, offboarding, and team change requests, ensuring secure and timely account transitions.</li>
-            <li>Process and validate access requests while enforcing least privilege and approval workflows.</li>
-            <li>Resolve ServiceNow tickets related to account provisioning and removal, reducing backlog and misprovisioned access.</li>
-            <li>Update GitHub documentation and runbooks, improving accuracy and ramp up time for new team members.</li>
-            <li>Develop SOPs for core workflows to preserve continuity during absences and role transitions.</li>
-            <li>Troubleshoot access and account issues for end users, improving first contact resolution.</li>
-          </ul>
-        </div>
-
-        <div class="subsection">
-          <h4>Additional Contributions</h4>
-          <ul>
-            <li>Support operational response tasks including IP and domain blocks, malicious email trace and purge actions, and USB exception requests.</li>
-            <li>Process quarterly phishing exercise results in Splunk and maintain dashboards used for awareness and training.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="job-top">
-          <div>
-            <h3>SOC CSIRT Analyst</h3>
-            <div class="job-meta">USCIS SOC / CSS Evolver Federal &middot; Stennis Space Center, MS</div>
+        <section class="section-shell" id="education">
+          <h2 class="section-title">Education</h2>
+          <div class="education-card">
+            <strong>SANS Technology Institute</strong>
+            <span>Purple Team Operations Graduate Certificate</span><br />
+            <span>In progress &mdash; Expected completion April 2027</span>
           </div>
-          <span class="job-date">June 2022 &ndash; March 2025</span>
-        </div>
-        <ul>
-          <li>Monitor network activity, evaluate and escalate security alerts, and coordinate response, containment, eradication, and recovery.</li>
-          <li>Perform network and host based analysis using SIEM tools.</li>
-          <li>Review and triage DLP alerts while coordinating user training to prevent repeat incidents.</li>
-          <li>Analyze malware and suspicious files using EDR tools and Out of Band devices.</li>
-          <li>Handle spam and phishing reports and raise enterprise wide awareness.</li>
-          <li>Consume and act upon daily Cyber Threat Intelligence reports.</li>
-          <li>Conduct incident response based on standard operating procedures.</li>
-          <li>Investigate network violations and coordinate remediation and training.</li>
-          <li>Lead log analysis for host and network systems.</li>
-          <li>Train new team members on tool usage and incident response procedures.</li>
-          <li>Collaborate across teams to process and remediate classified spills.</li>
-        </ul>
-      </div>
-
+          <div class="education-card">
+            <strong>Louisiana State University, Baton Rouge, LA</strong>
+            <span>Bachelor of Arts, Political Science</span><br />
+            <span>Aug 2010 &ndash; Aug 2014</span>
+          </div>
+        </section>
+      </aside>
     </div>
-  </section>
 
-  <!-- Skills / Tools -->
-  <section id="skills" class="section-shell">
-    <h2 class="section-title">Tools &amp; Platforms</h2>
-    <div class="stack-card">
-      <div class="chip-wrap">
-        <span class="chip">FireEye</span>
-        <span class="chip">CrowdStrike</span>
-        <span class="chip">Splunk</span>
-        <span class="chip">Swimlane</span>
-        <span class="chip">Turbine</span>
-        <span class="chip">Tines</span>
-        <span class="chip">FlareVM Suite</span>
-        <span class="chip">Azure</span>
-        <span class="chip">O365</span>
-        <span class="chip">AWS</span>
-        <span class="chip">Gurucul</span>
-        <span class="chip">Exabeam</span>
-        <span class="chip">Active Directory</span>
-        <span class="chip">VMRay</span>
-        <span class="chip">Tenable</span>
-      </div>
-    </div>
-  </section>
+    <!-- Footer with visitor counter -->
+    <footer>
+      <p>Visitors <span id="visitor-count">Loading...</span></p>
+    </footer>
+  </div><!-- closes .page -->
 
-  <!-- Projects -->
-  <section class="section-shell">
-    <h2 class="section-title">Projects</h2>
-    <div class="card">
-      <h3 style="color:var(--text);font-family:'Space Grotesk',sans-serif;margin:0 0 10px;">Resume Website built on AWS</h3>
-      <p style="color:var(--muted);margin:0;">Static website hosted on Amazon S3 with CloudFront CDN, configured Route 53 DNS and AWS Certificate Manager for HTTPS. Hardened S3 access using bucket policies and origin access control, enforcing least privilege IAM. Enabled logging for visibility into access patterns.</p>
-    </div>
-  </section>
-
-  <!-- Certifications -->
-  <section class="section-shell">
-    <h2 class="section-title">Certifications</h2>
-    <div class="cert-list">
-      <div class="cert-item">
-        <strong><a href="https://www.credly.com/badges/cf1fad3f-a5d8-4d5a-8770-f22f3a2b2755">GRTP</a></strong>
-        GIAC Red Team Professional
-      </div>
-      <div class="cert-item">
-        <strong><a href="https://www.credly.com/badges/ff464be9-19f8-4807-a2e1-f258eb1dd854">GCIH</a></strong>
-        GIAC Certified Incident Handler
-      </div>
-      <div class="cert-item">
-        <strong><a href="https://certs.ine.com/0c230a46-fc52-452c-a5bc-db21c6a7a774#acc.pszyBMAJ">eCTHPv2</a></strong>
-        Certified Threat Hunting Professional
-      </div>
-      <div class="cert-item">
-        <strong><a href="https://www.credly.com/badges/6c74af00-0b6c-476a-a273-c8b6b3205543">CompTIA CySA+</a></strong>
-        Cybersecurity Analyst
-      </div>
-      <div class="cert-item">
-        <strong><a href="https://www.credly.com/badges/dcdb0f31-9f88-4d67-bf1c-418690fa8f45">CompTIA PenTest+</a></strong>
-        Penetration Testing
-      </div>
-    </div>
-  </section>
-
-  <!-- Education -->
-  <section id="education" class="section-shell">
-    <h2 class="section-title">Education</h2>
-    <div class="education-card">
-      <strong>SANS Technology Institute</strong>
-      <span>Purple Team Operations Graduate Certificate</span><br />
-      <span>In progress &middot; Expected completion April 2027</span>
-    </div>
-    <div class="education-card">
-      <strong>Louisiana State University, Baton Rouge, LA</strong>
-      <span>Bachelor of Arts, Political Science</span><br />
-      <span>Aug 2010 &ndash; Aug 2014</span>
-    </div>
-  </section>
-
-  <!-- Footer with visitor counter -->
-  <footer>
-    <p>Visitors: <span id="visitor-count">Loading...</span></p>
-  </footer>
-
-</div>
-<script src="script.js"></script>
+  <!-- Matrix animation script -->
+  <script src="matrix.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
- 

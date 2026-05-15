@@ -1,7 +1,6 @@
 /**
  * script.js - Visitor Counter
  * Calls the API Gateway endpoint to increment and display the visitor count.
- * Replace API_ENDPOINT with your deployed API Gateway URL.
  */
 
 const API_ENDPOINT = 'https://wp05dksre9.execute-api.us-east-1.amazonaws.com/prod/count';

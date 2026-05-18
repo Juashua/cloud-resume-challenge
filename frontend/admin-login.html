@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrator Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    .login-shell {
+      width: 100%;
+      max-width: 380px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    p.helper {
+      font-size: 0.95rem;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    button {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #1f2937;
+      color: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .footer-note {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .footer-note a {
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <main class="login-shell">
+    <h1>Administrator Login</h1>
+    <p class="helper">Sign in to continue.</p>
+
+    <form action="/admin/login" method="post">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" />
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div class="footer-note">
+      By continuing, you agree to the <a href="/terms">Terms of Use</a>. Authorized use only.
+      Activity on this system may be monitored, logged, and used for security, reporting, and statistical purposes.
+    </div>
+  </main>
+</body>
+</html>

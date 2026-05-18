@@ -9,7 +9,7 @@
 # Data source: look up the existing hosted zone by name
 # -------------------------------------------------------
 data "aws_route53_zone" "resume" {
-  name         = var.domain_name   # "juashua.com"
+  name         = var.domain_name # "juashua.com"
   private_zone = false
 }
 
@@ -47,7 +47,7 @@ resource "aws_acm_certificate_validation" "resume" {
 # -------------------------------------------------------
 resource "aws_route53_record" "root" {
   zone_id = data.aws_route53_zone.resume.zone_id
-  name    = var.domain_name   # "juashua.com"
+  name    = var.domain_name # "juashua.com"
   type    = "A"
 
   alias {
@@ -62,7 +62,7 @@ resource "aws_route53_record" "root" {
 # -------------------------------------------------------
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.resume.zone_id
-  name    = "www.${var.domain_name}"   # "www.juashua.com"
+  name    = "www.${var.domain_name}" # "www.juashua.com"
   type    = "A"
 
   alias {

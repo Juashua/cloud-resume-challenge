@@ -9,10 +9,15 @@ terraform {
       version = "~> 5.0"
     }
   }
-  backend "s3" {
-    bucket = "YOUR_TERRAFORM_STATE_BUCKET"
-    key    = "cloud-resume/terraform.tfstate"
-    region = "us-east-1"
+  provider "aws" {
+  region  = var.aws_region
+  profile = "terraform"
+}
+
+provider "aws" {
+  alias   = "us_east_1"
+  region  = "us-east-1"
+  profile = "terraform"
   }
 }
 
@@ -60,6 +65,26 @@ resource "aws_cloudfront_origin_access_control" "resume" {
   signing_protocol                  = "sigv4"
 }
 
+# ----- CloudFront Function for honeypot rewrite -----
+resource "aws_cloudfront_function" "admin_login_rewrite" {
+  name    = "admin-login-rewrite"
+  runtime = "cloudfront-js-2.0"
+  comment = "Rewrite /admin/login to /admin-login.html"
+  publish = true
+
+  code = <<EOF
+function handler(event) {
+  var request = event.request;
+
+  if (request.uri === "/admin/login") {
+    request.uri = "/admin-login.html";
+  }
+
+  return request;
+}
+EOF
+}
+
 # ----- CloudFront Distribution -----
 resource "aws_cloudfront_distribution" "resume" {
   enabled             = true
@@ -84,6 +109,11 @@ resource "aws_cloudfront_distribution" "resume" {
     forwarded_values {
       query_string = false
       cookies { forward = "none" }
+    }
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.admin_login_rewrite.arn
     }
   }
 
@@ -111,7 +141,6 @@ resource "aws_dynamodb_table" "visitor_count" {
 
   tags = var.tags
 }
-
 
 # ----- IAM Role for Lambda -----
 resource "aws_iam_role" "lambda_exec" {

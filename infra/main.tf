@@ -245,3 +245,211 @@ resource "aws_lambda_permission" "api_gateway" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.visitor_counter.execution_arn}/*/*"
 }
+
+# ----- DynamoDB Table (Honeypot Events) -----
+resource "aws_dynamodb_table" "honeypot_events" {
+  name         = "HoneypotEvents"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "event_id"
+
+  attribute {
+    name = "event_id"
+    type = "S"
+  }
+
+  tags = var.tags
+}
+
+# ----- IAM Role for Honeypot Lambda -----
+resource "aws_iam_role" "honeypot_lambda_exec" {
+  name = "honeypot-lambda-role"
+  tags = var.tags
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Service = "lambda.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "honeypot_lambda_basic" {
+  role       = aws_iam_role.honeypot_lambda_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy" "honeypot_lambda_dynamodb" {
+  name = "honeypot-dynamodb-policy"
+  role = aws_iam_role.honeypot_lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = "dynamodb:PutItem"
+      Resource = aws_dynamodb_table.honeypot_events.arn
+    }]
+  })
+}
+
+# ----- Lambda Function (Honeypot Handler) -----
+data "archive_file" "honeypot_zip" {
+  type        = "zip"
+  source_file = "${path.module}/lambda/honeypot_handler.py"
+  output_path = "${path.module}/lambda/honeypot_handler.zip"
+}
+
+resource "aws_lambda_function" "honeypot_handler" {
+  function_name    = "honeypot-handler"
+  runtime          = "python3.12"
+  handler          = "honeypot_handler.lambda_handler"
+  role             = aws_iam_role.honeypot_lambda_exec.arn
+  filename         = data.archive_file.honeypot_zip.output_path
+  source_code_hash = data.archive_file.honeypot_zip.output_base64sha256
+  timeout          = 10
+  tags             = var.tags
+
+  environment {
+    variables = {
+      HONEYPOT_TABLE = aws_dynamodb_table.honeypot_events.name
+    }
+  }
+}
+
+# Honeypot handler integration
+resource "aws_apigatewayv2_integration" "honeypot_handler" {
+  api_id                 = aws_apigatewayv2_api.visitor_counter.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.honeypot_handler.invoke_arn
+  payload_format_version = "2.0"
+}
+
+resource "aws_apigatewayv2_route" "honeypot_submit" {
+  api_id    = aws_apigatewayv2_api.visitor_counter.id
+  route_key = "POST /honeypot-login-submit"
+  target    = "integrations/${aws_apigatewayv2_integration.honeypot_handler.id}"
+}
+
+# Allow API Gateway to invoke honeypot Lambda
+resource "aws_lambda_permission" "honeypot_api_gateway" {
+  statement_id  = "AllowAPIGatewayInvokeHoneypot"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.honeypot_handler.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.visitor_counter.execution_arn}/*/*"
+}
+
+# ----- WAF Web ACL -----
+resource "aws_wafv2_web_acl" "honeypot" {
+  provider    = aws.us_east_1
+  name        = "honeypot-waf"
+  description = "WAF rules for honeypot detection"
+  scope       = "CLOUDFRONT"
+  tags        = var.tags
+
+  default_action {
+    allow {}
+  }
+
+  rule {
+    name     = "detect-honeypot-page-visit"
+    priority = 1
+
+    action {
+      count {}
+    }
+
+    statement {
+      byte_match_statement {
+        field_to_match {
+          uri_path {}
+        }
+        positional_constraint = "STARTS_WITH"
+        search_string         = "/admin/login"
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "detect-honeypot-page-visit"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "detect-honeypot-submission"
+    priority = 2
+
+    action {
+      count {}
+    }
+
+    statement {
+      byte_match_statement {
+        field_to_match {
+          uri_path {}
+        }
+        positional_constraint = "STARTS_WITH"
+        search_string         = "/honeypot-login-submit"
+        text_transformation {
+          priority = 0
+          type     = "NONE"
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "detect-honeypot-submission"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "rate-limit-honeypot"
+    priority = 3
+
+    action {
+      block {}
+    }
+
+    statement {
+      rate_based_statement {
+        limit              = 100
+        aggregate_key_type = "IP"
+
+        scope_down_statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/admin/login"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "rate-limit-honeypot"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name                = "honeypot-waf"
+    sampled_requests_enabled   = true
+  }
+}

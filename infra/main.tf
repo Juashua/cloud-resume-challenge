@@ -3,32 +3,29 @@
 
 terraform {
   required_version = ">= 1.5.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-  }
-  provider "aws" {
-    region  = var.aws_region
-    profile = "terraform"
-  }
-
-  provider "aws" {
-    alias   = "us_east_1"
-    region  = "us-east-1"
-    profile = "terraform"
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.0"
+    }
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = "terraform"
 }
 
 # ACM certificate must be in us-east-1 for CloudFront
 provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"
+  alias   = "us_east_1"
+  region  = "us-east-1"
+  profile = "terraform"
 }
 
 # ----- S3 Bucket -----
@@ -108,7 +105,9 @@ resource "aws_cloudfront_distribution" "resume" {
 
     forwarded_values {
       query_string = false
-      cookies { forward = "none" }
+      cookies {
+        forward = "none"
+      }
     }
 
     function_association {
@@ -124,7 +123,9 @@ resource "aws_cloudfront_distribution" "resume" {
   }
 
   restrictions {
-    geo_restriction { restriction_type = "none" }
+    geo_restriction {
+      restriction_type = "none"
+    }
   }
 }
 

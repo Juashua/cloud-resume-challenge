@@ -1,5 +1,6 @@
 terraform {
   required_version = ">= 1.5.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -10,7 +11,7 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
-  profile = "terraform-admin"
+  profile = "terraform"
 }
 
 resource "aws_s3_bucket" "terraform_state" {
